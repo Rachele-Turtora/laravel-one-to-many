@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Type;
 use App\Http\Requests\StoreTypeRequest;
 use App\Http\Requests\UpdateTypeRequest;
@@ -13,7 +14,9 @@ class TypeController extends Controller
      */
     public function index()
     {
-        //
+        $types = Type::all();
+
+        return view('admin.types.index', compact('types'));
     }
 
     /**
