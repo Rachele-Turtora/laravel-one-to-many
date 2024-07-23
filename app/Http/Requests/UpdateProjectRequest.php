@@ -24,7 +24,8 @@ class UpdateProjectRequest extends FormRequest
     {
         return [
             'title' => ['required', 'min:5', 'max:55', 'string', Rule::unique('projects')->ignore($this->project)],
-            'description' => 'min:5|string'
+            'description' => 'min:5|string',
+            'type_id' => 'nullable|exists:types,id'
         ];
     }
 
@@ -37,7 +38,8 @@ class UpdateProjectRequest extends FormRequest
             'title.string' => 'Il titolo deve essere una stringa',
             'title.unique' => 'Questo titolo esiste già',
             'description.min' => 'La descrizione deve contenere minimo 5 caratteri',
-            'description.string' => 'La descrizione deve essere una stringa'
+            'description.string' => 'La descrizione deve essere una stringa',
+            'type_id.exists' => 'L\'id del tipo selezionato non è valido'
         ];
     }
 }
