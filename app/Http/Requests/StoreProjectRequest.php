@@ -24,7 +24,8 @@ class StoreProjectRequest extends FormRequest
         return [
             'title' => 'required|min:5|max:55|string|unique:projects',
             'description' => 'min:5|string',
-            'cover_img' => 'nullable|image|max:2048'
+            'cover_img' => 'nullable|image|max:2048',
+            'type_id' => 'nullable|exists:types,id'
         ];
     }
 
@@ -39,7 +40,8 @@ class StoreProjectRequest extends FormRequest
             'description.min' => 'La descrizione deve contenere minimo 5 caratteri',
             'description.string' => 'La descrizione deve essere una stringa',
             'cover_img.image' => 'Il file deve essere un\'immagine',
-            'cover_img.max' => 'Il file può essere al massimo di 2MB'
+            'cover_img.max' => 'Il file può essere al massimo di 2MB',
+            'type_id.exists' => 'L\'id del tipo selezionato non è valido'
         ];
     }
 }

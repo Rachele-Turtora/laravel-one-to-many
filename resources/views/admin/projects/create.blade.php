@@ -30,6 +30,23 @@
     </div>
 
     <div class="mb-3">
+        <label for="type" class="form-label">Type</label>
+        <select class="form-select @if ($errors->get('type_id')) is-invalid @endif" aria-label=" Default select example" id="type" name="type_id">
+            <option selected>Seleziona il tipo</option>
+            @foreach ($types as $type)
+            <option value="{{$type->id}}" @if (old('type_id')==$type->id) selected @endif>{{$type->title}}</option>
+            @endforeach
+        </select>
+        @if ($errors->get('type_id'))
+        @foreach ($errors->get('type_id') as $message)
+        <div class="invalid-feedback">
+            {{$message}}
+        </div>
+        @endforeach
+        @endif
+    </div>
+
+    <div class="mb-3">
         <label for="cover-img" class="form-label">Cover image</label>
         <input class="form-control @if ($errors->get('cover_img')) is-invalid @endif" type="file" name="cover_img" id="cover-img">
         @if ($errors->get('cover_img'))
