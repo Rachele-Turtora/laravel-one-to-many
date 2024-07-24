@@ -7,6 +7,7 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 use App\Models\Type;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -17,6 +18,9 @@ class ProjectController extends Controller
      */
     public function index()
     {
+        // per vedere solo i progetti dell'utente loggato:
+        // $projects = Project::where('user_id', Auth::user()->id)->get();
+
         $projects = Project::all();
 
         return view('admin.projects.index', compact('projects'));
@@ -49,6 +53,7 @@ class ProjectController extends Controller
         $project->slug = Str::of($project->title)->slug('-');
         $project->cover_img = $img_path;
         $project->type_id = $data['type_id'];
+        $project->user_id = Auth::user()->id;
 
         $project->save();
 
