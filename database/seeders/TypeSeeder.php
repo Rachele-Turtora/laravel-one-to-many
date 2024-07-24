@@ -19,13 +19,14 @@ class TypeSeeder extends Seeder
 
         Type::truncate();
 
-        $types = ['Frontend', 'Backend', 'Fullstack'];
+        $types = config('types');
 
         foreach ($types as $type) {
             $new_type = new Type();
 
-            $new_type->title  = $type;
+            $new_type->title  = $type['title'];
             $new_type->slug = Str::of($new_type->title)->slug('-');
+            $new_type->description = $type['description'];
 
             $new_type->save();
         }

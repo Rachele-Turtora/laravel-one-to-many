@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Type;
 use App\Http\Requests\StoreTypeRequest;
 use App\Http\Requests\UpdateTypeRequest;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class TypeController extends Controller
 {
@@ -24,7 +26,7 @@ class TypeController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.types.create');
     }
 
     /**
@@ -32,7 +34,19 @@ class TypeController extends Controller
      */
     public function store(StoreTypeRequest $request)
     {
-        //
+        $data = $request->validated();
+
+        $img_path = $request->hasFile('cover_img') ? $request->cover_img->store('uploads') : NULL;
+
+        $type = new Type();
+        $type->title = $data['title'];
+        $type->slug = Str::of($type->title)->slug('-');
+        $type->description = $data['description'];
+        $type->cover_img = $img_path;
+
+        $type->save();
+
+        return redirect()->route('admin.types.show', $type->slug)->with('message', 'Tipo creato con successo');
     }
 
     /**
@@ -40,7 +54,7 @@ class TypeController extends Controller
      */
     public function show(Type $type)
     {
-        //
+        return view('admin.types.show', compact('type'));
     }
 
     /**
@@ -48,7 +62,7 @@ class TypeController extends Controller
      */
     public function edit(Type $type)
     {
-        //
+        return view('admin.types.edit', compact('type'));
     }
 
     /**
@@ -56,7 +70,16 @@ class TypeController extends Controller
      */
     public function update(UpdateTypeRequest $request, Type $type)
     {
-        //
+        $data = $request->validated();
+
+        $data['slug'] = Str::of($type->title)->slug('-');
+
+        $img_path = $request->hasFile('cover_img') ? $request->cover_img->store('uploads') : NULL;
+        $data['cover_img'] = $img_path;
+
+        $type->update($data);
+
+        return redirect()->route('admin.types.show', $type->slug)->with('message', 'Tipo aggiornato con successo');
     }
 
     /**
@@ -64,6 +87,12 @@ class TypeController extends Controller
      */
     public function destroy(Type $type)
     {
-        //
+        if ($type->cover_img) {
+            Storage::delete($type->cover_img);
+        }
+
+        $type->delete();
+
+        return redirect()->route('admin.types.index')->with('message', 'Tipo eliminato con successo');
     }
 }

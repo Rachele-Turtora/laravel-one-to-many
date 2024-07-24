@@ -7,7 +7,7 @@
     @foreach ($projects as $project)
     <li class="m-2">
         <div class="d-flex">
-            <a href="{{route('admin.projects.show',$project)}}">
+            <a href="{{route('admin.projects.show', $project)}}">
                 <span><strong>{{$project['title']}}</strong></span>
             </a>
             <a href="{{route('admin.projects.edit', $project)}}">

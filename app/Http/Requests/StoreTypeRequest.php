@@ -11,7 +11,7 @@ class StoreTypeRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,24 @@ class StoreTypeRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|min:2|max:55|string|unique:types',
+            'description' => 'nullable|min:5|string',
+            'cover_img' => 'nullable|image|max:2048',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'title.required' => 'Il titolo è obbligatorio',
+            'title.min' => 'Il titolo deve contenere minimo 2 caratteri',
+            'title.max' => 'Il titolo deve contenere massimo 55 caratteri',
+            'title.string' => 'Il titolo deve essere una stringa',
+            'title.unique' => 'Questo titolo esiste già',
+            'description.min' => 'La descrizione deve contenere minimo 5 caratteri',
+            'description.string' => 'La descrizione deve essere una stringa',
+            'cover_img.image' => 'Il file deve essere un\'immagine',
+            'cover_img.max' => 'Il file può essere al massimo di 2MB'
         ];
     }
 }

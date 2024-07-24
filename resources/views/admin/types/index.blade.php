@@ -7,7 +7,7 @@
     @foreach ($types as $type)
     <li class="m-2">
         <div class="d-flex">
-            <a href="{{route('admin.types.show',$type)}}">
+            <a href="{{route('admin.types.show', $type)}}">
                 <span><strong>{{$type['title']}}</strong></span>
             </a>
             <a href="{{route('admin.types.edit', $type)}}">

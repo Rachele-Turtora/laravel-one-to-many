@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreign('type_id')
                 ->references('id')
                 ->on('types')
-                ->nullOnDelete();
+                ->nullOnDelete();  // se cancello un type che ha dei projects associati, nei projects in typo viene impostato a NULL
 
             // metodo breve
             // $table->foreignId('type_id')->constrained();
